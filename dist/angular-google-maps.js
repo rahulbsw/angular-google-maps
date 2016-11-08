@@ -1,4 +1,4 @@
-/*! angular-google-maps 2.4.0 2016-10-12
+/*! angular-google-maps 2.4.0 2016-11-08
  *  AngularJS directives for Google Maps
  *  git: https://github.com/angular-ui/angular-google-maps.git
  */
@@ -6206,7 +6206,7 @@ Original idea from: http://stackoverflow.com/questions/22758950/google-map-drawi
                 } else {
                   return $http.get(scope.template, {
                     cache: $templateCache
-                  }).success(function(template) {
+                  }).then(function(template) {
                     var templateCtrl, templateScope;
                     templateScope = scope.$new();
                     controlDiv.append(template);
@@ -6216,11 +6216,10 @@ Original idea from: http://stackoverflow.com/questions/22758950/google-map-drawi
                       });
                       controlDiv.children().data('$ngControllerController', templateCtrl);
                     }
-                    return control = $compile(controlDiv.children())(templateScope);
-                  }).error(function(error) {
-                    return _this.$log.error('mapControl: template could not be found');
-                  }).then(function() {
+                    control = $compile(controlDiv.children())(templateScope);
                     return pushControl(map, control, index);
+                  })["catch"](function(error) {
+                    return _this.$log.error('mapControl: template could not be found');
                   });
                 }
               });
@@ -8096,7 +8095,7 @@ This directive creates a new scope.
               }
               return $http.get(scope.template, {
                 cache: $templateCache
-              }).success(function(template) {
+              }).then(function(template) {
                 if (angular.isUndefined(scope.events)) {
                   _this.$log.error('searchBox: the events property is required');
                   return;

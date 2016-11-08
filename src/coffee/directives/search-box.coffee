@@ -35,22 +35,22 @@ angular.module('uiGmapgoogle-maps')
           options: '=?options' #optional
           parentdiv: '=?parentdiv' #optional
           ngModel: "=?" #optional
-      
+
       link: (scope, element, attrs, mapCtrl) =>
         GoogleMapApi.then (maps) =>
           unless scope.template?
             $templateCache.put 'uigmap-searchbox-default.tpl.html', '<input type="text">'
             scope.template = 'uigmap-searchbox-default.tpl.html'
           $http.get(scope.template, { cache: $templateCache })
-            .success (template) =>
-              if angular.isUndefined scope.events
-                @$log.error 'searchBox: the events property is required'
-                return
-              mapCtrl.getScope().deferred.promise.then (map) =>
-                ctrlPosition = if angular.isDefined scope.position then scope.position.toUpperCase().replace /-/g, '_' else 'TOP_LEFT'
-                if not maps.ControlPosition[ctrlPosition]
-                    @$log.error 'searchBox: invalid position property'
-                    return
-                new SearchBoxParentModel(scope, element, attrs, map, ctrlPosition, $compile(template)(scope))
+          .then (template) =>
+            if angular.isUndefined scope.events
+              @$log.error 'searchBox: the events property is required'
+              return
+            mapCtrl.getScope().deferred.promise.then (map) =>
+              ctrlPosition = if angular.isDefined scope.position then scope.position.toUpperCase().replace /-/g, '_' else 'TOP_LEFT'
+              if not maps.ControlPosition[ctrlPosition]
+                  @$log.error 'searchBox: invalid position property'
+                  return
+              new SearchBoxParentModel(scope, element, attrs, map, ctrlPosition, $compile(template)(scope))
     new SearchBox()
 ]

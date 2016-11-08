@@ -19,11 +19,11 @@ angular.module("uiGmapgoogle-maps.directives.api")
             return
 
           # Wrap control initialization inside a $timeout() call to make sure the map is created already
-          IControl.mapPromise(scope, ctrl).then (map) =>
+          IControl.mapPromise(scope, ctrl).then (map) ->
             control = undefined
             controlDiv = angular.element '<div></div>'
 
-            pushControl = (map, control, index) =>
+            pushControl = (map, control, index) ->
 
               # add index if defined
               if index then control[0].index = index
@@ -34,7 +34,7 @@ angular.module("uiGmapgoogle-maps.directives.api")
             # checking if is using the transcluded content or will load the template
             if hasTranscludedContent
 
-              transclude (transcludeEl) =>
+              transclude (transcludeEl) ->
 
                 controlDiv.append transcludeEl
 
@@ -42,7 +42,8 @@ angular.module("uiGmapgoogle-maps.directives.api")
 
             else
               $http.get(scope.template,{cache: $templateCache})
-              .then (template) =>
+              .then ({data}) ->
+                template = data
                 templateScope = scope.$new()
                 controlDiv.append template
 
@@ -55,7 +56,7 @@ angular.module("uiGmapgoogle-maps.directives.api")
                 control = $compile(controlDiv.children())(templateScope)
 
                 pushControl(map, control, index)
-              .catch (error) =>
+              .catch () ->
                 @$log.error 'mapControl: template could not be found'
 
 ]

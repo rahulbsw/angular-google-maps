@@ -6206,8 +6206,10 @@ Original idea from: http://stackoverflow.com/questions/22758950/google-map-drawi
                 } else {
                   return $http.get(scope.template, {
                     cache: $templateCache
-                  }).then(function(template) {
-                    var templateCtrl, templateScope;
+                  }).then(function(arg) {
+                    var data, template, templateCtrl, templateScope;
+                    data = arg.data;
+                    template = data;
                     templateScope = scope.$new();
                     controlDiv.append(template);
                     if (angular.isDefined(scope.controller)) {
@@ -6218,8 +6220,8 @@ Original idea from: http://stackoverflow.com/questions/22758950/google-map-drawi
                     }
                     control = $compile(controlDiv.children())(templateScope);
                     return pushControl(map, control, index);
-                  })["catch"](function(error) {
-                    return _this.$log.error('mapControl: template could not be found');
+                  })["catch"](function() {
+                    return this.$log.error('mapControl: template could not be found');
                   });
                 }
               });
@@ -8095,7 +8097,10 @@ This directive creates a new scope.
               }
               return $http.get(scope.template, {
                 cache: $templateCache
-              }).then(function(template) {
+              }).then(function(arg) {
+                var data, template;
+                data = arg.data;
+                template = data;
                 if (angular.isUndefined(scope.events)) {
                   _this.$log.error('searchBox: the events property is required');
                   return;

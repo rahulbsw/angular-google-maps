@@ -42,7 +42,8 @@ angular.module('uiGmapgoogle-maps')
             $templateCache.put 'uigmap-searchbox-default.tpl.html', '<input type="text">'
             scope.template = 'uigmap-searchbox-default.tpl.html'
           $http.get(scope.template, { cache: $templateCache })
-          .then (template) =>
+          .then ({data}) =>
+            template = data
             if angular.isUndefined scope.events
               @$log.error 'searchBox: the events property is required'
               return

@@ -75,7 +75,7 @@
     "phantomjs-polyfill": "0.0.1",
     "require-directory": "2.1.1",
     "webpack": "1.X",
-    "webpack-dev-server": "1.X",
+    "webpack-dev-server": "3.11",
     "yargs": "3.32.0"
   },
   "dependencies": {
